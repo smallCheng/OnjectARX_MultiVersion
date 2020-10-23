@@ -1,0 +1,146 @@
+===============================================================================================
+
+本文档由 GrayWolf 于2017-09-13整理：
+
+===============================================================================================
+
+(本机环境 64位 win7旗舰版，已安装 windows 全版本 SDKs，其它环境也就 windows 的 SDKs 的版本区别)
+
+按序执行：
+
+a、安装各 ObjectARX 版本
+
+b、安装各 ObjectARX 要对应的 VS 平台工具集(建议安装完整版  对应 VS2005 --> VS2015)
+
+   V80 以下平台需要安装 Daffodil.ENU 才能被识别到
+
+c、安装 windowsSDK for winXP/win7/win10
+
+d、配置编译方案（详见项目属性配置）
+
+e、在生成菜单下的批生成里，勾选要输出的配置，点生成即可。
+
+================================================================================================================================================
+
+项目属性配置：
+
+
+如下设置在--> VS2015 + ObjectARX2017 下编写代码，然后编译多目标版本，测试通过。
+
+              编译时通常会出现找不到某头文件，打不开某库文件的情况。
+
+              其原因是编译器找不到低版本(VS2005 VS2008 VS2010 VS2012)或者一些系统的的包含目录和库文件目录，也有可能是安装编译器时缺少了某些文件
+
+常规配置参见--> "VS2015 + ObjectARX2017 创建第一个ARX函数"
+
+1、选定当前配置方案和目标平台
+
+2、选好平台工具集-->(对应的 CAD 版本请查阅官方文档)
+
+        R15-->VS2002-->V60
+        R16-->VS2003-->V70
+        R17-->VS2005-->V80 
+        R18-->VS2008-->V90 
+        R19-->VS2010-->V100
+        R20-->VS2012-->V110
+        R21-->VS2015-->V140
+
+3、做好常规配置
+
+4、VC++目录项下添加如下包含目录  -----(要是放到 c/c++ 下的附加包含目录系统可能会不认)
+
+  （重点：除了 ObjectARX 对应版本的目录外，还要添加平台工具集安装目录下 \vc\include 的包含路径和 Microsoft SDKs\Windows\7.0A/7.1A\include 的包含路径）
+
+                V80平台集--> x86 
+            
+                          C:\Program Files (x86)\Microsoft Visual Studio 8\VC\include
+
+                          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Include
+
+                          C:\Program Files (x86)\Microsoft Visual Studio 8\VC\atlmfc\include (可省略)
+
+                V90平台集--> x86 and x64
+                  
+                          C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include
+
+                          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Include  
+
+                V100平台集--> x86 and x64
+                  
+                          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include
+
+                          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Include  
+
+                V110平台集--> x86 and x64
+                  
+                          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include
+
+                          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Include  
+                          
+                          C:\Program Files (x86)\Windows Kits\8.0\Include\um  (或者8.1\Include\um)
+
+                V140平台集-->  x86 and x64
+
+                          (当前编译器为 VS2015时 32位目标时要包含以下目录，64位目标时不需要包含；如果使用了比 VS2015 更高的平台集，则32位目标和64目标都需要包含如下目录)
+                  
+                          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include
+
+                          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Include  
+
+                          C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt                        
+
+
+5、VC++目录项下添加如下库目录  -----(要是放到链接器下的附加库目录系统可能会不认)
+
+  （重点：除了 ObjectARX 对应版本的库目录外，还要添加平台工具集安装目录下 \vc\Lib 的包含路径和 Microsoft SDKs\Windows\7.0A/7.1A\Lib 的包含路径）
+
+                     V80平台集--> x86  
+
+                        C:\Program Files (x86)\Microsoft Visual Studio 8\VC\Lib 
+  
+                        C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib 
+
+                     V90平台集--> x86 and x64               
+
+                        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\lib 
+
+                        C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib       
+
+                        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\lib\amd64           
+
+                        C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib\x64       
+
+                     V100平台集--> x86 and x64               
+
+                        C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\lib        
+
+                        C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib         
+
+                        C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\lib\amd64  
+
+                        C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib\x64       
+
+                     V110平台集--> x86 and x64               
+
+                        C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\lib 
+
+                        C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib
+
+                        C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\lib\amd64                           
+
+                        C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib\x64      
+
+                     V140平台集--> x86 and x64
+
+                        (当前编译器为vs2015时 32位目标时要包含以下目录，64位目标时不需要包含；如果使用了比vs2015更高的平台集，则32位目标和64目标都需要包含如下目录)
+                  
+                        C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\Lib
+
+                        C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib 
+
+                        C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x86  或者x64(具体要目录里的内容再定)
+                      
+
+
+
+
